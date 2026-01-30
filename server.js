@@ -11,7 +11,7 @@ app.use(express.json())
 
 // Routes
 app.get('/', (req, res) => {
-  res.send('Server is running')
+  res.render('index')
 })
 
 app.use('/api/grades', gradesRoutes)
@@ -20,3 +20,5 @@ app.use('/api/grades', gradesRoutes)
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`)
 })
+
+app.set('view engine', 'ejs')
