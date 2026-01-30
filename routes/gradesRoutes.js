@@ -5,8 +5,19 @@ const router = express.Router()
 
 // GET all grades
 router.get('/', (req, res) => {
-  res.json(grades)
+  const { student } = req.query
+
+  if (!student) {
+    return res.json(grades)
+  }
+
+  const filtered = grades.filter((g) =>
+    g.student.toLowerCase().includes(student.toLowerCase()),
+  )
+
+  res.json(filtered)
 })
+
 // GET one grade by id
 router.get('/:id', (req, res) => {
   const id = Number(req.params.id)
@@ -17,5 +28,27 @@ router.get('/:id', (req, res) => {
   }
 
   res.json(grade)
+})
+
+router.post('/', (req, res) => {
+  const { student, assignment, score } = req.body
+
+  if (!student || !assignment || score === undefined) {
+    return res.status(400).json({
+      error: 'student, assignment, and score are required',
+    })
+  }
+
+  const newGrade = {
+    id: grades.length ? grades[grades.length - 1].id + 1 : 1,
+    student,
+    assignment,
+    score: Number(score),
+  }
+
+  grades.push(newGrade)
+
+  // send them back to homepage so they can SEE the new grade
+  res.redirect('/')
 })
 export default router

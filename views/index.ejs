@@ -1,10 +1,43 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title><%= Title %></title>
+    <title>Grades App</title>
+    <link rel="stylesheet" href="/styles.css" />
   </head>
   <body>
-    <h1><%= Header %></h1>
+    <h1>Grades Home</h1>
+
     <p>Look what we have here</p>
+
+    <h2>Add a Grade</h2>
+    <form action="/api/grades" method="POST">
+      <label>
+        Student:
+        <input name="student" required />
+      </label>
+
+      <label>
+        Assignment:
+        <input name="assignment" required />
+      </label>
+
+      <label>
+        Score:
+        <input name="score" type="number" min="0" max="100" required />
+      </label>
+
+      <button type="submit">Add Grade</button>
+    </form>
+
+    <h2>All Grades</h2>
+    <ul>
+      <% grades.forEach(g => { %>
+        <li>
+          <strong><%= g.student %></strong>
+          | <%= g.assignment %>
+          | <%= g.score %>
+        </li>
+      <% }) %>
+    </ul>
   </body>
 </html>
